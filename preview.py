@@ -4,7 +4,7 @@
 
 import csv
 import matplotlib.pyplot as p
-import numpy as n
+import numpy as n 
 
 gavin = 'gavin.txt'
 bryan = 'bryan.txt'
