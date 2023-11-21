@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Graphs</title>
+
+    <!-- Include Plotly JavaScript and CSS files -->
+    <!-- You may need to update these URLs based on the version you are using -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.plot.ly/plotly-2.5.1.min.css" />
+</head>
+<body>
+    <h1>Combined Graphs</h1>
+
+    <!-- Scatter Plot Section -->
+    <div id="scatter-plot-section">
+        <h2>Scatter Plot</h2>
+        <div id="scatter-plot"></div>
+    </div>
+
+    <!-- Pie Chart Section -->
+    <div id="pie-chart-section">
+        <h2>Pie Chart</h2>
+        <div id="pie-chart"></div>
+    </div>
+
+    <script>
+        // Fetch and embed scatter plot
+        Plotly.d3.html('scatter_plot.html', function (scatterPlot) {
+            document.getElementById('scatter-plot').appendChild(scatterPlot);
+        });
+
+        // Fetch and embed pie chart
+        Plotly.d3.html('pie_chart.html', function (pieChart) {
+            document.getElementById('pie-chart').appendChild(pieChart);
+        });
+    </script>
+</body>
+</html>
