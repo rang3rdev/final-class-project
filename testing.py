@@ -89,8 +89,8 @@ scatter_html = scatter_fig.to_html(full_html=False)
 pie_html = pie_fig.to_html(full_html=False)
 winPercent_html = winPercent_fig.to_html(full_html=False)
 
-data = {'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
-        'Total Points': [sum(y1), sum(y2), sum(y3), sum(y4), sum(y5), sum(y6)]}
+data = {'Player': ['Adam', 'Gavin', 'Bryan', 'Arnold', 'Mujeeb', 'Tyler'],
+        'Total Points': [sum(y3), sum(y1), sum(y2), sum(y4), sum(y6), sum(y5)]}
 df = pd.DataFrame(data)
 
 table_html = df.to_html(index=False)
@@ -185,7 +185,7 @@ html_report = f"""
 
     <!-- Player Stats Table -->
         <h2>Player Stats</h2>
-    <div style="width: 60%; margin: 20px 20px 20px 20px;">
+    <div style="width: 50%; margin: 20px 20px 20px 20px;">
         {table_html}
     </div>
     <div class="comm">
