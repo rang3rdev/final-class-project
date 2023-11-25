@@ -112,26 +112,26 @@ explanations = """
     and visualized the additional points added towards the player's point total that week using the y-axis.</p>
 """
 
-
-
 commentaries1 = """
     <p> The first thing you may notice is the volatility that many players display in their weekly point scorings. 
-    Peculiarities such as Mujeeb's measly debut of 61.58 to an explosive showing of 151.38 points just the next week seem to imply high variance to player scoring outcomes week by week. 
+    Peculiarities such as Mujeeb's measly debut of 61.58 to an explosive showing of 151.38 points just the next week
+    seem to imply high variance to player scoring outcomes week by week. 
     As we are dealing with statistics, however, there is always to be expected outliers who stray away from the general trend. 
-    Adam has proved himself to be a remarkably consistent performer, reliably occupying a top 1 to 2 showing weekly, 
-    so it should come to no surprise Adam comes out with the highest overall point total of weeks 1-10, clocking in with an impressive 1529.44 points accrued.</p> 
+    Adam has proved himself to be a remarkably consistent performer, reliably occupying a top 1 to 2 showing weekly, so it should come to no surprise
+    Adam comes out with the highest overall point total of weeks 1-10, clocking in with an impressive 1529.44 points accrued.</p> 
 """
 
 commentaries2 = """
-    <p> The first thing that stood out to me in this graph was Tyler's falloff exiting the beggining weeks, going on a 6 week losing streak that would briefly drag him all the way
-    down to a 17% win rate, the lowest anyone has gone thus far. Similarly, even despite consistently strong weekly outings, Adam suffered an initial 4 week slump that brought his 
-    win rate as low as 25%, although experienced a rebound beggining in week 5. Bryan is the most volatile figure in the data, frequently teasing a losing record, only to 
-    spike up once he comes close to an under 50% win rate.
+    <p> The first thing that stood out to me in this graph was Tyler's falloff exiting the beggining weeks, 
+    going on a 6 week losing streak that would briefly drag him all the way down to a 17% win rate, the lowest anyone has gone thus far. 
+    Similarly, even despite consistently strong weekly outings, Adam suffered an initial 4 week slump that brought his 
+    win rate as low as 25%, although experienced a rebound beggining in week 5. Bryan is the most volatile figure in the data, 
+    frequently teasing a losing record, only to spike up once he comes close to an under 50% win rate.
 """
 
 tips = """
-<p> To hide a variable, such as Gavin, click on the dots/lines next to names in the legend. This makes it so you can compare and contrast different players, as well as look exclusively at
-the data of one certain player. You can unhide a variable by simply reclicking the aforementioned dots/lines.
+<p> To hide a variable, such as Gavin, click on the dots/lines next to names in the legend. This makes it so you can compare and contrast different players, 
+as well as look exclusively at the data of one certain player. You can unhide a variable by simply reclicking the aforementioned dots/lines.
 """
 
 html_report = f"""
@@ -153,7 +153,7 @@ html_report = f"""
         {intro_text}
     </div>
 
-    <!-- Points Scatter Plot Section -->
+    <!-- Points Total Scatter Plot Section -->
         <h2>Change in Point Totals: Weeks 1-10</h2>
     <div class="comm">
         {explanations}
@@ -165,7 +165,7 @@ html_report = f"""
         {commentaries1}
     </div>
 
-    <!-- Win Percentage Scatter Plot Section -->
+    <!-- Win Rate Scatter Plot Section -->
         <h2>Change in Win Rate: Weeks 1-10</h2>
     <div style="width: 100%; margin: 20px 20px 20px 20px;">
         {winPercent_html}
