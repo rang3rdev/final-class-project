@@ -57,12 +57,12 @@ simple_x = np.arange(1, 11)
 
 stack_plot_fig = go.Figure()
 
+stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y3, fill='tozeroy', mode='none', name='Adam', fillcolor=player_colors['Adam'], line=dict(color='rgba(255,255,255,0)')))
 stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y1, fill='tozeroy', mode='none', name='Gavin', fillcolor=player_colors['Gavin'], line=dict(color='rgba(255,255,255,0)')))
 stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y2, fill='tozeroy', mode='none', name='Bryan', fillcolor=player_colors['Bryan'], line=dict(color='rgba(255,255,255,0)')))
-stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y3, fill='tozeroy', mode='none', name='Adam', fillcolor=player_colors['Adam'], line=dict(color='rgba(255,255,255,0)')))
+stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y6, fill='tozeroy', mode='none', name='Arnold', fillcolor=player_colors['Arnold'], line=dict(color='rgba(255,255,255,0)')))
 stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y4, fill='tozeroy', mode='none', name='Mujeeb', fillcolor=player_colors['Mujeeb'], line=dict(color='rgba(255,255,255,0)')))
 stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y5, fill='tozeroy', mode='none', name='Tyler', fillcolor=player_colors['Tyler'], line=dict(color='rgba(255,255,255,0)')))
-stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y6, fill='tozeroy', mode='none', name='Arnold', fillcolor=player_colors['Arnold'], line=dict(color='rgba(255,255,255,0)')))
 
 above_below_avg_fig = make_subplots(rows=2, cols=1, subplot_titles=['Scatter Plot', 'Line Plot'])
 
@@ -122,11 +122,13 @@ for i, (x, y, name) in enumerate([(x7, y7, 'Gavin'), (x8, y8, 'Bryan'), (x9, y9,
 pie_fig = go.Figure()
 
 pie_fig.add_trace(go.Pie(labels=['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
-                        values=[sum(y1), sum(y2), sum(y3), sum(y4), sum(y5), sum(y6)],
-                        name='Total Points', marker=dict(colors=[player_colors['Gavin'], player_colors['Bryan'], player_colors['Adam'], player_colors['Mujeeb'], player_colors['Tyler'], player_colors['Arnold']])))
+values=[sum(y1), sum(y2), sum(y3), sum(y4), sum(y5), sum(y6)],
+name='Total Points', marker=dict(colors=[player_colors['Gavin'], player_colors['Bryan'], player_colors['Adam'], player_colors['Mujeeb'], player_colors['Tyler'], player_colors['Arnold']])))
 
 scatter_fig.update_layout(
     title_text='Fantasy Football Scoring: Weeks 1-10',
+    xaxis_title='Overall Point Total',
+    yaxis_title='Points Added Towards Total',
     showlegend=True,
     width=1000,
     height=800,
@@ -134,6 +136,8 @@ scatter_fig.update_layout(
 
 winPercent_fig.update_layout(
     title_text='Fantasy Football Win Percentages: Weeks 1-10',
+    xaxis_title='Week',
+    yaxis_title='Win Rate',
     showlegend=True,
     width=800,
     height=600,
@@ -141,6 +145,8 @@ winPercent_fig.update_layout(
 
 above_below_avg_fig.update_layout(
     title_text='Fantasy Football Points: Above/Below Weekly Average',
+    xaxis_title='Overall Point Total',
+    yaxis_title='Points Added Towards Total',
     showlegend=True,
     width=1000,
     height=800,
@@ -148,6 +154,8 @@ above_below_avg_fig.update_layout(
 
 specific_fig.update_layout(
     title_text='Fantasy Football Points: Above/Below Weekly Average',
+    xaxis_title='Overall Point Total',
+    yaxis_title='Points Added Towards Total',
     showlegend=True,
     width=1000,
     height=800,
@@ -155,8 +163,8 @@ specific_fig.update_layout(
 
 stack_plot_fig.update_layout(
     title_text='Stack Plot',
-    xaxis_title='X-axis Label',
-    yaxis_title='Y-axis Label',
+    xaxis_title='Week',
+    yaxis_title='Points Added Towards Total',
     showlegend=True,
     plot_bgcolor='rgba(255,255,255,0.9)',
     paper_bgcolor='rgba(255,255,255,0.9)',
@@ -172,13 +180,12 @@ stack_plot_html = stack_plot_fig.to_html (full_html=False)
 specific_html = specific_fig.to_html (full_html=False)
 
 data_1 = {
-    'Player': ['Adam', 'Gavin', 'Bryan', 'Arnold', 'Mujeeb', 'Tyler'],
-    'Below Trendline': [4, 4, 2, 7, 8, 4],
-    'Above Trendline': [6, 6, 8, 3, 2, 6],
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold', 'Total'],
+    'Below Trendline': [4, 4, 2, 7, 8, 4, 29],
+    'Above Trendline': [6, 6, 8, 3, 2, 6, 31],
 }
 
 df_table_1 = pd.DataFrame(data_1)
-df_table_1['Total Points'] = df_table_1['Below Trendline'] + df_table_1['Above Trendline']
 
 table_1_html = df_table_1.to_html(index=False)
 
@@ -205,7 +212,7 @@ intro_text = """
 
 explanations = """
     <p>In this graph, I displayed the change in point totals over the span of 10 weeks with the x-axis, 
-    and visualized the additional points added towards the player's point total that week using the y-axis.</p>
+    and visualized the additional points added towards the player's point total that week with the y-axis.</p>
 """
 
 commentaries1 = """
@@ -221,8 +228,15 @@ commentaries2 = """
     <p> The first thing that stood out to me in this graph was Tyler's falloff exiting the beggining weeks, 
     going on a 6 week losing streak that would briefly drag him all the way down to a 17% win rate, the lowest anyone has gone thus far. 
     Similarly, even despite consistently strong weekly outings, Adam suffered an initial 4 week slump that brought his 
-    win rate as low as 25%, although experienced a rebound beggining in week 5. Bryan is the most volatile figure in the data, 
+    win rate as low as 25%, although experienced a rebound beggining week 5. Bryan is the definitely one of the most volatile figures in the data, 
     frequently teasing a losing record, only to spike up once he comes close to an under 50% win rate.
+"""
+
+commentaries3 = """
+    <p> Smashing everyone's point totals into a pie chart reveals how relatively competitive the league is, 
+    with not one person pertaining even a quarter percent share the of overall point total. Beyond my sample size of weeks 1-10, 
+    I believe that the distance between teams will stand to further increase, and I expect some motion in who shares what percentage of the overall point total, 
+    such as Bryan potentially overtaking Gavin for second-most points. </p>
 """
 
 tips = """
@@ -276,7 +290,7 @@ html_report = f"""
         {pie_html}
     </div>
     <div class="comm">
-        {explanations}
+        {commentaries3}
     </div>
 
     <!-- Pie Chart Section -->
