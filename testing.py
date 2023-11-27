@@ -2,6 +2,7 @@ import csv
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import numpy as np
 
 player_colors = {
     'Gavin': '#E50184', 
@@ -31,8 +32,11 @@ def read_data(file_path):
     with open(file_path, 'r') as file:
         reader = csv.reader(file)
         for row in reader:
-            x.append(float(row[0]))
-            y.append(float(row[1]))
+            if len(row) >= 2:
+                x.append(float(row[0]))
+                y.append(float(row[1]))
+            else:
+                print(f"Warning: Skipping row {row} in file {file_path}. It does not have the expected number of elements.")
     return x, y
 
 x1, y1 = read_data(gavin)
@@ -48,6 +52,56 @@ x9, y9 = read_data(Wadam)
 x10, y10 = read_data(Wmujeeb)
 x11, y11 = read_data(Wtyler)
 x12, y12 = read_data(Warnold)
+
+simple_x = np.arange(1, 11)
+
+stack_plot_fig = go.Figure()
+
+stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y1, fill='tozeroy', mode='none', name='Gavin', fillcolor=player_colors['Gavin'], line=dict(color='rgba(255,255,255,0)')))
+stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y2, fill='tozeroy', mode='none', name='Bryan', fillcolor=player_colors['Bryan'], line=dict(color='rgba(255,255,255,0)')))
+stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y3, fill='tozeroy', mode='none', name='Adam', fillcolor=player_colors['Adam'], line=dict(color='rgba(255,255,255,0)')))
+stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y4, fill='tozeroy', mode='none', name='Mujeeb', fillcolor=player_colors['Mujeeb'], line=dict(color='rgba(255,255,255,0)')))
+stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y5, fill='tozeroy', mode='none', name='Tyler', fillcolor=player_colors['Tyler'], line=dict(color='rgba(255,255,255,0)')))
+stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y6, fill='tozeroy', mode='none', name='Arnold', fillcolor=player_colors['Arnold'], line=dict(color='rgba(255,255,255,0)')))
+
+above_below_avg_fig = make_subplots(rows=2, cols=1, subplot_titles=['Scatter Plot', 'Line Plot'])
+
+for i, (x, y, name) in enumerate([(x1, y1, 'Gavin'), (x2, y2, 'Bryan'), (x3, y3, 'Adam'), (x4, y4, 'Mujeeb'), (x5, y5, 'Tyler'), (x6, y6, 'Arnold')], start=1):
+    above_below_avg_fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name=name, marker=dict(size=10, color=player_colors[name])), row=1, col=1)
+
+for i, (x, y, name) in enumerate([(x1, y1, 'Gavin'), (x2, y2, 'Bryan'), (x3, y3, 'Adam'), (x4, y4, 'Mujeeb'), (x5, y5, 'Tyler'), (x6, y6, 'Arnold')], start=1):
+    above_below_avg_fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=name, marker=dict(size=10, color=player_colors[name])), row=2, col=1)
+
+overall_trendline_y = [(sum(week) / len(week)) for week in zip(y1, y2, y3, y4, y5, y6)]
+
+above_below_avg_fig.add_trace(go.Scatter(x=x1, y=overall_trendline_y, mode='lines', name='Overall Trendline', line=dict(color='black', dash='dash')), row=1, col=1)
+above_below_avg_fig.add_trace(go.Scatter(x=x1, y=overall_trendline_y, mode='lines', name='Overall Trendline', line=dict(color='black', dash='dash')), row=2, col=1)
+
+specific_fig = go.Figure()
+
+overall_below_trendline_count = 0
+overall_above_trendline_count = 0
+
+for i, (x, y, name) in enumerate([(x1, y1, 'Gavin'), (x2, y2, 'Bryan'), (x3, y3, 'Adam'), (x4, y4, 'Mujeeb'), (x5, y5, 'Tyler'), (x6, y6, 'Arnold')], start=1):
+    markers_below_trendline = [val for val, trendline_val in zip(y, overall_trendline_y) if val < trendline_val]
+    markers_above_trendline = [val for val, trendline_val in zip(y, overall_trendline_y) if val >= trendline_val]
+
+    below_trendline_count = len(markers_below_trendline)
+    above_trendline_count = len(markers_above_trendline)
+
+    overall_below_trendline_count += below_trendline_count
+    overall_above_trendline_count += above_trendline_count
+
+    print(f'For {name}:')
+    print(f'Number of points below trendline: {below_trendline_count}')
+    print(f'Number of points above trendline: {above_trendline_count}')
+
+    specific_fig.add_trace(go.Scatter(x=x, y=markers_below_trendline, mode='markers', name=name + ' Below Trendline', marker=dict(size=10, color='red')))
+    specific_fig.add_trace(go.Scatter(x=x, y=markers_above_trendline, mode='markers', name=name + ' Above Trendline', marker=dict(size=10, color='green')))
+
+print(f'\nOverall counts:')
+print(f'Number of points below trendline: {overall_below_trendline_count}')
+print(f'Number of points above trendline: {overall_above_trendline_count}')
 
 scatter_fig = make_subplots(rows=2, cols=1, subplot_titles=['Scatter Plot', 'Line Plot'])
 
@@ -85,15 +139,57 @@ winPercent_fig.update_layout(
     height=600,
 )
 
+above_below_avg_fig.update_layout(
+    title_text='Fantasy Football Points: Above/Below Weekly Average',
+    showlegend=True,
+    width=1000,
+    height=800,
+)
+
+specific_fig.update_layout(
+    title_text='Fantasy Football Points: Above/Below Weekly Average',
+    showlegend=True,
+    width=1000,
+    height=800,
+)
+
+stack_plot_fig.update_layout(
+    title_text='Stack Plot',
+    xaxis_title='X-axis Label',
+    yaxis_title='Y-axis Label',
+    showlegend=True,
+    plot_bgcolor='rgba(255,255,255,0.9)',
+    paper_bgcolor='rgba(255,255,255,0.9)',
+    width=800,
+    height=600,
+)
+
 scatter_html = scatter_fig.to_html(full_html=False)
 pie_html = pie_fig.to_html(full_html=False)
 winPercent_html = winPercent_fig.to_html(full_html=False)
+above_below_avg_html = above_below_avg_fig.to_html(full_html=False)
+stack_plot_html = stack_plot_fig.to_html (full_html=False)
+specific_html = specific_fig.to_html (full_html=False)
 
-data = {'Player': ['Adam', 'Gavin', 'Bryan', 'Arnold', 'Mujeeb', 'Tyler'],
-        'Total Points': [sum(y3), sum(y1), sum(y2), sum(y4), sum(y6), sum(y5)]}
-df = pd.DataFrame(data)
+data_1 = {
+    'Player': ['Adam', 'Gavin', 'Bryan', 'Arnold', 'Mujeeb', 'Tyler'],
+    'Below Trendline': [4, 4, 2, 7, 8, 4],
+    'Above Trendline': [6, 6, 8, 3, 2, 6],
+}
 
-table_html = df.to_html(index=False)
+df_table_1 = pd.DataFrame(data_1)
+df_table_1['Total Points'] = df_table_1['Below Trendline'] + df_table_1['Above Trendline']
+
+table_1_html = df_table_1.to_html(index=False)
+
+data_2 = {
+    'Player': ['Adam', 'Gavin', 'Bryan', 'Arnold', 'Mujeeb', 'Tyler'],
+    'Total Points': [sum(y3), sum(y1), sum(y2), sum(y4), sum(y6), sum(y5)]
+}
+
+df_table_2 = pd.DataFrame(data_2)
+
+table_2_html = df_table_2.to_html(index=False)
 
 intro_text = """
     <p>Fantasy Football is a popular game wherein a group of around 6-12 participants take on the role of a football general manager, 
@@ -176,20 +272,40 @@ html_report = f"""
 
     <!-- Pie Chart Section -->
         <h2>Pie Chart</h2>
-    <div style="width: 50%; margin: 20px 20px 20px 20px; align: center">
+    <div style="width: 50%; margin: 20px 20px 20px 20px;">
         {pie_html}
     </div>
     <div class="comm">
         {explanations}
     </div>
 
-    <!-- Player Stats Table -->
-        <h2>Player Stats</h2>
+    <!-- Pie Chart Section -->
+        <h2>Stack Plot</h2>
     <div style="width: 50%; margin: 20px 20px 20px 20px;">
-        {table_html}
+        {stack_plot_html}
     </div>
     <div class="comm">
         {explanations}
+    </div>
+
+    <!-- Averages Scatter Plot Section -->
+        <h2>Averages: Weeks 1-10</h2>
+    <div style="width: 100%; margin: 20px 20px 20px 20px;">
+        {above_below_avg_html}
+        {specific_html}
+    </div>
+    <div class="comm">
+        {commentaries1}
+    </div>
+
+    <!-- Player Stats Table -->
+        <h2>Player Stats</h2>
+    <div style="width: 50%; margin: 20px 20px 20px 20px;">
+        {table_2_html}
+        {table_1_html}
+    </div>
+    <div class="comm">
+        {commentaries1}
     </div>
 </body>
 </html>
