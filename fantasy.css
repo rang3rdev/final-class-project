@@ -95,10 +95,6 @@ nav a {
     transition: color 0.3s;
 }
 
-nav a:hover {
-    color: #4CAF50; 
-}
-
 aside {
     margin: 10 50 0 0px;;
     font-family: Verdana, sans-serif;
