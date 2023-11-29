@@ -20,12 +20,12 @@ mujeeb = 'points/mujeeb.txt'
 tyler = 'points/tyler.txt'
 arnold = 'points/arnold.txt'
 
-Wgavin = 'win-percentage/gavin-win.txt'
-Wbryan = 'win-percentage/bryan-win.txt'
-Wadam = 'win-percentage/adam-win.txt'
-Wmujeeb = 'win-percentage/mujeeb-win.txt'
-Wtyler = 'win-percentage/tyler-win.txt'
-Warnold = 'win-percentage/arnold-win.txt'
+w_gavin = 'win-percentage/gavin-win.txt'
+w_bryan = 'win-percentage/bryan-win.txt'
+w_adam = 'win-percentage/adam-win.txt'
+w_mujeeb = 'win-percentage/mujeeb-win.txt'
+w_tyler = 'win-percentage/tyler-win.txt'
+w_arnold = 'win-percentage/arnold-win.txt'
 
 def read_data(file_path):
     x, y = [], []
@@ -52,17 +52,36 @@ x4, y4 = read_data(mujeeb)
 x5, y5 = read_data(tyler)
 x6, y6 = read_data(arnold)
 
-x7, y7 = read_data(Wgavin)
-x8, y8 = read_data(Wbryan)
-x9, y9 = read_data(Wadam)
-x10, y10 = read_data(Wmujeeb)
-x11, y11 = read_data(Wtyler)
-x12, y12 = read_data(Warnold)
+x7, y7 = read_data(w_gavin)
+x8, y8 = read_data(w_bryan)
+x9, y9 = read_data(w_adam)
+x10, y10 = read_data(w_mujeeb)
+x11, y11 = read_data(w_tyler)
+x12, y12 = read_data(w_arnold)
+
+def calculate_changes(y_values):
+    return [round(y_values[i] - y_values[i - 1], 2) if i > 0 else 0 for i in range(len(y_values))]
+
+changes_gavin = calculate_changes(y1)
+changes_bryan = calculate_changes(y2)
+changes_adam = calculate_changes(y3)
+changes_mujeeb = calculate_changes(y4)
+changes_tyler = calculate_changes(y5)
+changes_arnold = calculate_changes(y6)
 
 file_paths = [gavin, bryan, adam, mujeeb, tyler, arnold]
 y_values_list = [read_y_values(file_path) for file_path in file_paths]
 
 simple_x = np.arange(1, 11)
+
+changes_fig = go.Figure()
+
+changes_fig.add_trace(go.Scatter(x=x1[1:], y=changes_gavin, mode='lines', name='Gavin', line=dict(color=player_colors['Gavin'])))
+changes_fig.add_trace(go.Scatter(x=x2[1:], y=changes_bryan, mode='lines', name='Bryan', line=dict(color=player_colors['Bryan'])))
+changes_fig.add_trace(go.Scatter(x=x3[1:], y=changes_adam, mode='lines', name='Adam', line=dict(color=player_colors['Adam'])))
+changes_fig.add_trace(go.Scatter(x=x4[1:], y=changes_mujeeb, mode='lines', name='Mujeeb', line=dict(color=player_colors['Mujeeb'])))
+changes_fig.add_trace(go.Scatter(x=x5[1:], y=changes_tyler, mode='lines', name='Tyler', line=dict(color=player_colors['Tyler'])))
+changes_fig.add_trace(go.Scatter(x=x6[1:], y=changes_arnold, mode='lines', name='Arnold', line=dict(color=player_colors['Arnold'])))
 
 weekly_pies_fig = make_subplots(rows=2, cols=5, subplot_titles=[f'Week {i+1}' for i in range(10)], specs=[[{'type': 'pie'}]*5]*2)
 
@@ -188,9 +207,18 @@ stack_plot_fig.update_layout(
 )
 
 weekly_pies_fig.update_layout(
-    title_text=f'Points Added Towards Total by Week',
+    title_text=f'Share of the Week Point Total: Weeks 1-10',
     height=600, 
     width=1340
+)
+
+changes_fig.update_layout(
+    title_text='Changes in Y-Values for Each Player',
+    xaxis_title='Player Point Total',
+    yaxis_title='Points Added Towards Total',
+    showlegend=True,
+    width=1000,
+    height=600,
 )
 
 scatter_html = scatter_fig.to_html(full_html=False)
@@ -200,6 +228,7 @@ above_below_avg_html = above_below_avg_fig.to_html(full_html=False)
 stack_plot_html = stack_plot_fig.to_html (full_html=False)
 specific_html = specific_fig.to_html (full_html=False)
 weekly_pies_html = weekly_pies_fig.to_html(full_html=False)
+changes_html = changes_fig.to_html(full_html=False)
 
 data_1 = {
     'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold', 'Total'],
@@ -268,13 +297,15 @@ commentaries_4 = """
     <p> With the addition of a trendline, we can see how Tyler's pitiful win rate can be considered
     a product of a continuous string of below average performances week to week. 
     It can also be inferred that Adam's early season slump is a possible consequence of his lone two below average performances during the span of weeks 2-3, 
-    with his rebound reflected by his return to above average performances going from weeks 4-10. It is also worth noting that below average points tend to be stay closer to the trendline, 
+    with his rebound reflected by his return to above average performances going from weeks 4-10. 
+    It is also worth noting that below average points tend to be stay closer to the trendline, 
     whereas above averages points, chiefly during the latter end of the sample period, tend to be far more distanced from the trendline. </p>
 """
 
 commentaries_5 = """
 <p> Surprisingly, everyone has had at least one week where they've enjoyed a plurality of the share of points scored. 
-As expected, Adam occupies the status of having the highest share of a week's total points scored, being responsible for 25.5 percent of the points scored during week 9. 
+As expected, Adam occupies the status of having the highest share of a week's total points scored, 
+being responsible for 25.5 percent of the points scored during week 9. 
 My first assumption was that Tyler would possess the lowest share of a week's total points scored, 
 but it is actually Mujeeb's meager showing of 61.58 points in week 1 that takes the cake for lowest share of a week's points scored total at 9.08 percent, 
 as well as being the only instance of a player being responsible for less than 10 percent of a week's total points scored. </p>
@@ -341,6 +372,7 @@ html_report = f"""
         <h2>Trendline: Weeks 1-10</h2>
     <div style="width: 100%; margin: 20px 20px 20px 20px;">
         {above_below_avg_html}
+        {changes_html}
     </div>
     <div class="comm">
         {commentaries_4}
