@@ -27,6 +27,13 @@ w_mujeeb = 'win-percentage/mujeeb-win.txt'
 w_tyler = 'win-percentage/tyler-win.txt'
 w_arnold = 'win-percentage/arnold-win.txt'
 
+p_gavin = 'projections/gavin-proj.txt'
+p_bryan = 'projections/bryan-proj.txt'
+p_adam = 'projections/adam-proj.txt'
+p_mujeeb = 'projections/mujeeb-proj.txt'
+p_tyler = 'projections/tyler-proj.txt'
+p_arnold = 'projections/arnold-proj.txt'
+
 def read_data(file_path):
     x, y = [], []
     with open(file_path, 'r') as file:
@@ -59,6 +66,13 @@ x10, y10 = read_data(w_mujeeb)
 x11, y11 = read_data(w_tyler)
 x12, y12 = read_data(w_arnold)
 
+x13 = read_data(p_gavin)
+x14 = read_data(p_bryan)
+x15 = read_data(p_adam)
+x16 = read_data(p_mujeeb)
+x17 = read_data(p_tyler)
+x18 = read_data(p_arnold)
+
 def calculate_changes(y_values):
     return [round(y_values[i] - y_values[i - 1], 2) if i > 0 else 0 for i in range(len(y_values))]
 
@@ -71,6 +85,36 @@ changes_arnold = calculate_changes(y6)
 
 file_paths = [gavin, bryan, adam, mujeeb, tyler, arnold]
 y_values_list = [read_y_values(file_path) for file_path in file_paths]
+
+players = ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold']
+player_paths = [p_gavin, p_bryan, p_adam, p_mujeeb, p_tyler, p_arnold]
+
+players_data = {
+    'Gavin': x13,
+    'Bryan': x14,
+    'Adam': x15,
+    'Mujeeb': x16,
+    'Tyler': x17,
+    'Arnold': x18
+}
+
+bar_fig = make_subplots(rows=5, cols=2, subplot_titles=[f'Week {i+1}' for i in range(10)])
+
+# Iterate over each subplot
+for i in range(10):
+    row = i // 2 + 1
+    col = i % 2 + 1
+
+    # Add bar traces for each player
+    for player, data in players_data.items():
+        x_data, y_data = data  # Unpack x and y data
+
+        # Check if the index is within the valid range
+        if 0 <= i < len(x_data) and 0 <= i < len(y_data):
+            bar_fig.add_trace(
+                go.Bar(x=[x_data[i]], y=[y_data[i]], name=player, marker=dict(color=player_colors[player])),
+                row=row, col=col
+            )
 
 simple_x = np.arange(1, 11)
 
@@ -221,6 +265,12 @@ changes_fig.update_layout(
     height=600,
 )
 
+bar_fig.update_layout(
+    showlegend=False,
+    width=1340,
+    height=800,
+)
+
 scatter_html = scatter_fig.to_html(full_html=False)
 pie_html = pie_fig.to_html(full_html=False)
 win_rate_html = win_rate_fig.to_html(full_html=False)
@@ -229,6 +279,7 @@ stack_plot_html = stack_plot_fig.to_html (full_html=False)
 specific_html = specific_fig.to_html (full_html=False)
 weekly_pies_html = weekly_pies_fig.to_html(full_html=False)
 changes_html = changes_fig.to_html(full_html=False)
+bar_html = bar_fig.to_html(full_html=False)
 
 data_1 = {
     'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold', 'Total'],
@@ -391,6 +442,7 @@ html_report = f"""
         <h2>Pie Chart</h2>
     <div style="width: 50%; margin: 20px 20px 20px 20px;">
         {pie_html}
+        {bar_html}
     </div>
     <div class="comm">
         {commentaries_3}
