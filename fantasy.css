@@ -33,6 +33,30 @@ header {
     
 }
 
+.block {
+    width:82%;
+    text-align:center;
+    margin-left:0;
+    height:2px;
+    border-width:0;
+    color: rgb(239, 239, 239);
+    background-color: rgb(239, 239, 239);
+}
+
+.set {
+    width: 100%; 
+    margin: 20px 20px 20px 20px
+}
+
+.other {
+    width: 50%; 
+    margin: 20px 20px 20px 20px
+}
+
+h1, h5 {
+    text-align: center
+}
+
 footer {
     background-color: #141414;
     color: white;
