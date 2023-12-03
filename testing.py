@@ -581,6 +581,10 @@ commentaries_9_half = """
 """
 
 commentaries_10 = """
+<p> For another way to view the data, I've also configured the stats collected from every week into tables, as well as calculated the difference between the player's projected total and real total. </p>
+"""
+
+commentaries_11 = """
 <p> As a final note, here are some of the various statistics I used displayed using simple tables. </p>
 """
 
@@ -599,19 +603,55 @@ html_report = f"""
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Fantasy Football Report</title>
     <link rel="stylesheet" href="fantasy.css">
+    <style>
+        body {{
+            display: flex;
+            flex-direction: column;
+        }}
+        header, nav {{
+            width: 100%;
+            text-align: center;
+        }}
+        nav ul {{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: flex-end;
+        }}
+        nav li {{
+            margin-left: 10px;
+        }}
+    </style>
 </head>
 <body>
     <header>
-    <h1>The Fantasy Football Report</h1>
-    <h5>By: Gavin Schnowske</h5>
+        <h1>The Fantasy Football Report</h1>
+        <h5>By: Gavin Schnowske</h5>
     </header>
-    <h2>What is Fantasy Football?</h2>
+
+    <nav>
+        <ul>
+            <li><a href="#what-is-fantasy-football">What is Fantasy Football?</a></li>
+            <li><a href="#change-in-point-totals">Change in Point Totals</a></li>
+            <li><a href="#change-in-win-rate">Change in Win Rate</a></li>
+            <li><a href="#trendline">Trendline</a></li>
+            <li><a href="#change-in-player-point-totals">Change in Player Point Totals</a></li>
+            <li><a href="#points-above-below-week-average">Points Above/Below Week Average</a></li>
+            <li><a href="#overall-point-total-pie-chart">Overall Point Total Pie Chart</a></li>
+            <li><a href="#projected-point-total-vs-real-point-total">Projected Point Total vs Real Point Total</a></li>
+            <li><a href="#projected-point-total-vs-real-point-total-tables">Projected Point Total vs Real Point Total: Tables</a></li>
+            <li><a href="#miscellaneous-player-stat-tables">Miscellaneous Player Stat Tables</a></li>
+        </ul>
+    </nav>
+
+    <h2 id="what-is-fantasy-football">What is Fantasy Football?</h2>
     <div class="comm">
         {intro_text}
     </div>
 
     <!-- Points Total Scatter Plots Section -->
-        <h2>Change in Point Totals</h2>
+    <h2 id="change-in-point-totals">Change in Point Totals</h2>
     <div class="comm">
         {start}
     </div>
@@ -623,7 +663,7 @@ html_report = f"""
     </div>
 
     <!-- Win Rate Scatter Plot Section -->
-        <h2>Change in Win Rate</h2>
+    <h2 id="change-in-win-rate">Change in Win Rate</h2>
     <div class="set">
         {win_rate_html}
     </div>
@@ -632,7 +672,7 @@ html_report = f"""
     </div>
 
     <!-- Trendline Scatter Plots Section -->
-        <h2>Trendline</h2>
+    <h2 id="trendline">Trendline</h2>
     <div class="comm">
         {commentaries_2_half}
     </div>
@@ -644,7 +684,7 @@ html_report = f"""
     </div>
 
     <!-- Trendline Scatter Plots Section -->
-        <h2>Change in Player Point Totals</h2>
+    <h2 id="change-in-player-point-totals">Change in Player Point Totals</h2>
     <div class="set">
         {changes_html}
     </div>
@@ -653,27 +693,27 @@ html_report = f"""
     </div>
 
     <!-- Above/Below Average Scatter Plot Section -->
-        <h2>Points Above/Below Week Average</h2>
+    <h2 id="points-above-below-week-average">Points Above/Below Week Average</h2>
     <div class="set">
         {specific_html}
     </div>
     <div class="comm">
         {commentaries_6}
     </div>
-<hr class="block">
+    <hr class="block">
     <div class="comm">
         {commentaries_6_half}
     </div>
 
     <!-- Pie Chart Section -->
-        <h2>Overall Point Total Pie Chart</h2>
+    <h2 id="overall-point-total-pie-chart">Overall Point Total Pie Chart</h2>
     <div class="other">
         {pie_html}
     </div>
     <div class="comm">
         {commentaries_3}
     </div>
-<hr class="block">
+    <hr class="block">
     <div class="comm">
         {commentaries_3_half}
     </div>
@@ -683,9 +723,9 @@ html_report = f"""
     <div class="comm">
         {commentaries_5}
     </div>
-    
+
     <!-- Bar Graphs Section -->
-        <h2>Projected Point Total vs Real Point Total</h2>
+    <h2 id="projected-point-total-vs-real-point-total">Projected Point Total vs Real Point Total</h2>
     <div class="comm">
         {commentaries_7}
     </div>
@@ -701,13 +741,16 @@ html_report = f"""
     <div class="comm">
         {commentaries_9}
     </div>
-<hr class="block">
+    <hr class="block">
     <div class="comm">
         {commentaries_9_half}
     </div>
 
     <!-- Stack Plot Section -->
-        <h2>Projected Point Total vs Real Point Total: Tables</h2>
+    <h2 id="projected-point-total-vs-real-point-total-tables">Projected Point Total vs Real Point Total: Tables</h2>
+    <div class="comm">
+        {commentaries_10}
+    </div>
     <div class="other">
         {table_5_html_colored}
         {table_6_html_colored}
@@ -722,9 +765,9 @@ html_report = f"""
     </div>
 
     <!-- Player Stats Tables -->
-        <h2>Miscellaneous Player Stat Tables</h2>
+    <h2 id="miscellaneous-player-stat-tables">Miscellaneous Player Stat Tables</h2>
     <div class="comm">
-        {commentaries_10}
+        {commentaries_11}
     </div>
     <div class="other">
         {table_1_html}
