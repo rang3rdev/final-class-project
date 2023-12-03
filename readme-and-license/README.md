@@ -19,5 +19,8 @@ messages I got throughout the development process, as well as refactoring my cod
 Eric Pogue [email:epogue@lewisu.edu](mailto:epogue@lewisu.edu) Used python programming together tutorials as reference/inspiration for the development of
 my primarily python language application.
 
+Friends who were participants in the data I collected: Bryan, Tyler, Adam, Mujeeb, Arnold. I was not given consent to share their contact information
+like their emails but they should get a shoutout in the credits for their role in my project nonetheless. 
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
