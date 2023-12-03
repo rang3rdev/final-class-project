@@ -1,8 +1,13 @@
+# The Fantasy Football Report
+# By: Gavin Schnowske
+
 import csv 
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
+
+### Data Reading
 
 player_colors = {
     'Gavin': '#E50184', 
@@ -107,6 +112,8 @@ players_data_real = {
     'Arnold': (x6, y6),
 }
 
+### Graphs
+
 proj_bar_fig = make_subplots(rows=5, cols=2, subplot_titles=[f'Week {i+1}' for i in range(10)])
 
 for i in range(10):
@@ -159,15 +166,6 @@ for i in range(len(y_values_list[0])):
     weekly_pies_fig.add_trace(go.Pie(labels=labels, values=values, name=f'Week {i+1}',
     marker=dict(colors=[player_colors[player] for player in labels])),
     row=(i // 5) + 1, col=(i % 5) + 1)
-
-stack_plot_fig = go.Figure()
-
-stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y3, fill='tozeroy', mode='none', name='Adam', fillcolor=player_colors['Adam'], line=dict(color='rgba(255,255,255,0)')))
-stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y1, fill='tozeroy', mode='none', name='Gavin', fillcolor=player_colors['Gavin'], line=dict(color='rgba(255,255,255,0)')))
-stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y2, fill='tozeroy', mode='none', name='Bryan', fillcolor=player_colors['Bryan'], line=dict(color='rgba(255,255,255,0)')))
-stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y6, fill='tozeroy', mode='none', name='Arnold', fillcolor=player_colors['Arnold'], line=dict(color='rgba(255,255,255,0)')))
-stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y4, fill='tozeroy', mode='none', name='Mujeeb', fillcolor=player_colors['Mujeeb'], line=dict(color='rgba(255,255,255,0)')))
-stack_plot_fig.add_trace(go.Scatter(x=simple_x, y=y5, fill='tozeroy', mode='none', name='Tyler', fillcolor=player_colors['Tyler'], line=dict(color='rgba(255,255,255,0)')))
 
 above_below_avg_fig = make_subplots(rows=2, cols=1, subplot_titles=['Scatter Plot', 'Line Plot'])
 
@@ -227,6 +225,8 @@ pie_fig.add_trace(go.Pie(labels=['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'A
 values=[sum(y1), sum(y2), sum(y3), sum(y4), sum(y5), sum(y6)],
 name='Total Points', marker=dict(colors=[player_colors['Gavin'], player_colors['Bryan'], player_colors['Adam'], player_colors['Mujeeb'], player_colors['Tyler'], player_colors['Arnold']])))
 
+### Graph Layouts
+
 scatter_fig.update_layout(
     title_text='Fantasy Football Scoring: Weeks 1-10',
     xaxis_title='Player Point Total',
@@ -263,16 +263,6 @@ specific_fig.update_layout(
     height=800
 )
 
-stack_plot_fig.update_layout(
-    xaxis_title='Week #',
-    yaxis_title='Points Added Towards Total',
-    showlegend=True,
-    plot_bgcolor='rgba(255,255,255,0.9)',
-    paper_bgcolor='rgba(255,255,255,0.9)',
-    width=800,
-    height=600
-)
-
 weekly_pies_fig.update_layout(
     title_text=f'Share of the Week Point Total: Weeks 1-10',
     showlegend=True, 
@@ -302,16 +292,19 @@ real_bar_fig.update_layout(
     height=800,
 )
 
+### HTML Conversion 
+
 scatter_html = scatter_fig.to_html(full_html=False)
 pie_html = pie_fig.to_html(full_html=False)
 win_rate_html = win_rate_fig.to_html(full_html=False)
 above_below_avg_html = above_below_avg_fig.to_html(full_html=False)
-stack_plot_html = stack_plot_fig.to_html (full_html=False)
 specific_html = specific_fig.to_html (full_html=False)
 weekly_pies_html = weekly_pies_fig.to_html(full_html=False)
 changes_html = changes_fig.to_html(full_html=False)
 proj_bar_html = proj_bar_fig.to_html(full_html=False)
 real_bar_html = real_bar_fig.to_html(full_html=False)
+
+### Stat Tables
 
 data_1 = {
     'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold', 'Total'],
@@ -352,6 +345,127 @@ df_table_4 = pd.DataFrame(data_4)
 
 table_4_html = df_table_4.to_html(index=False)
 
+### Projected vs Real Tables
+
+def color_map(val):
+    intensity = min(1, abs(val) / 50)
+    green_intensity = min(255, int(255 - abs(val) * 2 * intensity))
+    red_intensity = min(255, int(255 - abs(val) * 2 * intensity))
+
+    color = f'background-color: rgba(0, {green_intensity}, 0, 0.8)' if val > 0 else \
+            f'background-color: rgba({red_intensity}, 0, 0, 0.8)' if val < 0 else \
+            'background-color: rgba(255, 255, 255, 1)'
+    
+    text_color = 'color: white' if val != 0 else 'color: black'
+    
+    return f'{color}; {text_color}; text-align: center;'
+
+def round_to_hundredth(value):
+    return round(value, 2)
+
+def custom_formatter(value):
+    return '{:g}'.format(value) if isinstance(value, (float, int)) else str(value)
+
+def create_rounded_table(data, week_num):
+    df_table = pd.DataFrame(data)
+    
+    columns = [f'Week {week_num} Projected Points', f'Week {week_num} Real Points']
+    
+    for col in columns:
+        df_table[col] = df_table[col].map(round_to_hundredth)
+    
+    df_table['Point Difference'] = df_table.apply(lambda row: round_to_hundredth(row[columns[1]] - row[columns[0]]), axis=1)
+    
+    df_table.set_index('Player', inplace=True)
+    
+    table_html = df_table.style.format(custom_formatter).applymap(color_map, subset=['Point Difference']) \
+                    .to_html(index=False, escape=False, classes='styled-table') \
+                    .replace('style="', f'style="white-space: nowrap; Week {week_num} ')
+    
+    return table_html
+
+data_5 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 1 Projected Points': [119.5, 118.4, 133.3, 130.1, 132.4, 120],
+    'Week 1 Real Points': [91.94, 114.88, 137.9, 61.58, 138.16, 133.76],
+}
+
+table_5_html_colored = create_rounded_table(data_5, 1)
+
+data_6 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 2 Projected Points': [138.6, 129.7, 137.8, 131.2, 130, 116.9],
+    'Week 2 Real Points': [108.2, 131.34, 128.32, 151.38, 122.48, 137.16],
+}
+
+table_6_html_colored = create_rounded_table(data_6, 2)
+
+data_7 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 3 Projected Points': [142, 124.6, 141.3, 124, 135.8, 122.2],
+    'Week 3 Real Points': [165.98, 152.3, 132.18, 122.32, 132.58, 145.02],
+}
+
+table_7_html_colored = create_rounded_table(data_7, 3)
+
+data_8 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 4 Projected Points': [134.8, 125.8, 136.3, 127.1, 132.7, 124.3],
+    'Week 4 Real Points': [148.32, 163.22, 142.96, 110.68, 103.38, 136.68],
+}
+
+table_8_html_colored = create_rounded_table(data_8, 4)
+
+data_9 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 5 Projected Points': [136, 128.3, 144.5, 124.5, 135, 113.7],
+    'Week 5 Real Points': [151.84, 126.58, 158.84, 159.46, 92.44, 112.32],
+}
+
+table_9_html_colored = create_rounded_table(data_9, 5)
+
+data_10 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 6 Projected Points': [145, 130.5, 146.5, 126.7, 141.3, 127.1],
+    'Week 6 Real Points': [143.74, 118.7, 151.8, 101.46, 117.62, 87.12],
+}
+
+table_10_html_colored = create_rounded_table(data_10, 6)
+
+data_11 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 7 Projected Points': [138.9, 129.8, 144.1, 112.8, 118.4, 125.3],
+    'Week 7 Real Points': [183.76, 143.1, 155.46, 110, 82.78, 81.34],
+}
+
+table_11_html_colored = create_rounded_table(data_11, 7)
+
+data_12 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 8 Projected Points': [145.8, 132.7, 149.5, 128.7, 135.9, 125.7],
+    'Week 8 Real Points': [102.8, 122.76, 192.06, 133.16, 98.38, 137.76],
+}
+
+table_12_html_colored = create_rounded_table(data_12, 8)
+
+data_13 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 9 Projected Points': [131, 115.3, 148.6, 132.6, 113.2, 125.7],
+    'Week 9 Real Points': [76.8, 109.38, 162.88, 89.82, 108.78, 90.32],
+}
+
+table_13_html_colored = create_rounded_table(data_13, 9)
+
+data_14 = {
+    'Player': ['Gavin', 'Bryan', 'Adam', 'Mujeeb', 'Tyler', 'Arnold'],
+    'Week 10 Projected Points': [125.6, 125, 126.9, 137.3, 113.9, 127.6],
+    'Week 10 Real Points': [135.08, 114.12, 167.04, 102.78, 97.42, 175.36],
+}
+
+table_14_html_colored = create_rounded_table(data_14, 10)
+
+### HTML Commentaries
+
 intro_text = """
     <p>Fantasy Football is a popular game wherein a group of around 6-12 participants take on the role of a football general manager, 
     building their own teams of professional football players to compete in head-to-head matchups for the duration of 14-18 weeks, 
@@ -364,9 +478,9 @@ intro_text = """
     both to analyze trends within the league as well as for my own personal enjoyment.</p>
 """
 
-explanations = """
-    <p>Starting things off, in this graph I displayed the change in point totals over the span of 10 weeks with the x-axis, 
-    and visualized the additional points added towards the player's point total that week with the y-axis.</p>
+start = """
+    <p>Starting things off, for my first graph I displayed the change in overall point totals over the span of 10 weeks fixed to the x-axis, 
+    with the points added towards the player's overall point total with the y-axis.</p>
 """
 
 commentaries_1 = """
@@ -412,7 +526,7 @@ commentaries_4 = """
 """
 
 commentaries_4_half = """
-<p> The chaotic spikes of up and down further reinforce my theory for there to be a high variance in player scoring outcomes week by week. 
+<p> The chaotic spikes of up and down further reinforce my theory that there is a high variance in player scoring outcomes week by week. 
     Mujeeb in particular leapfrogs from being up sky high to hitting rock bottom almost routinely. The biggest drop in performance from one week to the next unfortunately goes to me, 
     scoring 80.96 points fewer in week 9 than I had during week 8. The largest jump in performance goes to Mujeeb, scoring 89.8 points more in week 2 than he had done during week 1. </p>
 """
@@ -449,7 +563,7 @@ how our teams will perform for the week. </p>
 
 commentaries_8 = """
 <p> It can be inferred that projections tend to stay consistent week by week, albeit with 
-    The occasional occurrence of a significant drop of 20 or so points in comparison to the week's former, although this phenomenon is more of a product of the concept of the NFL bye week, 
+    the occasional occurrence of a significant drop of 20 or so points in comparison to the week's former, although this phenomenon is more of a product of the concept of the NFL bye week, 
     wherein there are certain weeks where teams are granted a rest week with no slated games, 
     meaning players that would otherwise bolster someone's projection are now noncontributors for the duration of the week. 
     This is the reason why both myself and Adam's projections plummeted down from a respective 145.8 and 149.5 during week 9 down to a 125.6 and 126.9 in week 10.
@@ -475,6 +589,8 @@ tips = """
     as well as look exclusively at the data of one certain player. You can unhide a variable by simply reclicking the aforementioned dots/lines. </p>
 """
 
+### HTML Report 
+
 html_report = f"""
 <!DOCTYPE html>
 <html lang="en">
@@ -497,7 +613,7 @@ html_report = f"""
     <!-- Points Total Scatter Plots Section -->
         <h2>Change in Point Totals</h2>
     <div class="comm">
-        {explanations}
+        {start}
     </div>
     <div class="set">
         {scatter_html} <aside>{tips}</aside>
@@ -591,13 +707,22 @@ html_report = f"""
     </div>
 
     <!-- Stack Plot Section -->
-        <h2>Stack Plot</h2>
-    <div class="set">
-        {stack_plot_html}
+        <h2>Projected Point Total vs Real Point Total: Tables</h2>
+    <div class="other">
+        {table_5_html_colored}
+        {table_6_html_colored}
+        {table_7_html_colored}
+        {table_8_html_colored}
+        {table_9_html_colored}
+        {table_10_html_colored}
+        {table_11_html_colored}
+        {table_12_html_colored}
+        {table_13_html_colored}
+        {table_14_html_colored}
     </div>
 
     <!-- Player Stats Tables -->
-        <h2>Player Stats Tables</h2>
+        <h2>Miscellaneous Player Stat Tables</h2>
     <div class="comm">
         {commentaries_10}
     </div>

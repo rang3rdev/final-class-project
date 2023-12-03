@@ -144,3 +144,7 @@ h2 {
     border-radius: 25px;
     width: 40%;
 }
+
+.styled-table {
+    margin-top: 10px; 
+}
