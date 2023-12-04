@@ -167,7 +167,7 @@ for i in range(len(y_values_list[0])):
     marker=dict(colors=[player_colors[player] for player in labels])),
     row=(i // 5) + 1, col=(i % 5) + 1)
 
-above_below_avg_fig = make_subplots(rows=2, cols=1, subplot_titles=['Scatter Plot', 'Line Plot'])
+above_below_avg_fig = make_subplots(rows=2, cols=1)
 
 for i, (x, y, name) in enumerate([(x1, y1, 'Gavin'), (x2, y2, 'Bryan'), (x3, y3, 'Adam'), (x4, y4, 'Mujeeb'), (x5, y5, 'Tyler'), (x6, y6, 'Arnold')], start=1):
     above_below_avg_fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name=name, marker=dict(size=10, color=player_colors[name])), row=1, col=1)
@@ -203,7 +203,7 @@ for i, (x, y, name) in enumerate([(x1, y1, 'Gavin'), (x2, y2, 'Bryan'), (x3, y3,
     
     specific_fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name=name, marker=dict(size=10, color=marker_colors)))
 
-scatter_fig = make_subplots(rows=2, cols=1, subplot_titles=['Scatter Plot', 'Line Plot'])
+scatter_fig = make_subplots(rows=2, cols=1)
 
 for i, (x, y, name) in enumerate([(x1, y1, 'Gavin'), (x2, y2, 'Bryan'), (x3, y3, 'Adam'), (x4, y4, 'Mujeeb'), (x5, y5, 'Tyler'), (x6, y6, 'Arnold')], start=1):
     scatter_fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name=name, marker=dict(size=10, color=player_colors[name])), row=1, col=1)
@@ -211,7 +211,7 @@ for i, (x, y, name) in enumerate([(x1, y1, 'Gavin'), (x2, y2, 'Bryan'), (x3, y3,
 for i, (x, y, name) in enumerate([(x1, y1, 'Gavin'), (x2, y2, 'Bryan'), (x3, y3, 'Adam'), (x4, y4, 'Mujeeb'), (x5, y5, 'Tyler'), (x6, y6, 'Arnold')], start=1):
     scatter_fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=name, line=dict(color=player_colors[name])), row=2, col=1)
 
-win_rate_fig = make_subplots(rows=2, cols=1, subplot_titles=['Scatter Plot', 'Line Plot'])
+win_rate_fig = make_subplots(rows=2, cols=1)
 
 for i, (x, y, name) in enumerate([(x7, y7, 'Gavin'), (x8, y8, 'Bryan'), (x9, y9, 'Adam'), (x10, y10, 'Mujeeb'), (x11, y11, 'Tyler'), (x12, y12, 'Arnold')], start=1):
     win_rate_fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name=name, marker=dict(size=10, color=player_colors[name])), row=1, col=1)
@@ -228,7 +228,6 @@ name='Total Points', marker=dict(colors=[player_colors['Gavin'], player_colors['
 ### Graph Layouts
 
 scatter_fig.update_layout(
-    title_text='Fantasy Football Scoring: Weeks 1-10',
     xaxis_title='Player Point Total',
     yaxis_title='Points Added Towards Total',
     showlegend=True,
@@ -237,7 +236,6 @@ scatter_fig.update_layout(
 )
 
 win_rate_fig.update_layout(
-    title_text='Fantasy Football Win Rates: Weeks 1-10',
     xaxis_title='Week #',
     yaxis_title='Win Rate',
     showlegend=True,
@@ -246,7 +244,6 @@ win_rate_fig.update_layout(
 )
 
 above_below_avg_fig.update_layout(
-    title_text='Above/Below Weekly Average',
     xaxis_title='Player Point Total',
     yaxis_title='Points Added Towards Total',
     showlegend=True,
@@ -255,7 +252,6 @@ above_below_avg_fig.update_layout(
 )
 
 specific_fig.update_layout(
-    title_text='Fantasy Football Points: Above/Below Weekly Average',
     xaxis_title='Player Point Total',
     yaxis_title='Points Added Towards Total',
     showlegend=False,
@@ -264,7 +260,6 @@ specific_fig.update_layout(
 )
 
 weekly_pies_fig.update_layout(
-    title_text=f'Share of the Week Point Total: Weeks 1-10',
     showlegend=True, 
     width=1340,
     height=600
@@ -272,21 +267,21 @@ weekly_pies_fig.update_layout(
 
 changes_fig.update_layout(
     xaxis_title='Overall Player Point Total',
-    yaxis_title='+ or -',
+    yaxis_title='Change',
     showlegend=True,
     width=1000,
     height=600
 )
 
 proj_bar_fig.update_layout(
-    title_text='Player Projected Point Total',
+    title='Projected Point Totals by Week',
     showlegend=False,
     width=1340,
     height=800,
 )
 
 real_bar_fig.update_layout(
-    title_text='Real Player Point Total',
+    title='Real Point Totals by Week',
     showlegend=False,
     width=1340,
     height=800,

@@ -18,6 +18,11 @@ messages I got throughout the development process, as well as refactoring my cod
 [Snapchat] (https://www.snapchat.com/) Source of the player colors used in my program.
 Eric Pogue [email:epogue@lewisu.edu](mailto:epogue@lewisu.edu) Used python programming together tutorials as reference/inspiration for the development of
 my primarily python language application.
+Feross Aboukhadijeh (https://feross.org)
+Jon Schlinkert (https://github.com/jonschlinkert/pad-left)
+Sean Connelly (http://syntheti.cc) (https://github.com/voidqk/polybooljs)
+Kyle Simpson
+Sindre Sorhus
 
 Friends who were participants in the data I collected: Bryan, Tyler, Adam, Mujeeb, Arnold. I was not given consent to share their contact information
 like their emails but they should get a shoutout in the credits for their invaluable role in the creation of my project nonetheless. 
