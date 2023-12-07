@@ -35,30 +35,34 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) f
 Final Project Proposal: GraphingGridiron
 Project Head: Gavin Schnowske
 
-## Application Overview
+Application Overview
 The webpage will be designed around the visualization of my collected data, wherein I will include a variety of charts as to best portray all of the different dimensions to my statistics. I also intend to add interactivity with the graphs, such as possibly displaying something when you hover your cursor over a graph, or the clicking of a button to change some part of the application. There will also be additional information which may appear displayed alongside the graphs, whether that is to provide better clarification, or to give my own personal thoughts relevant to the data at hand.
 
-## Technology Overview
+Technology Overview
 Languages: HTML, CSS, Python 3.12.0
 Libraries: Matplotlib, Pandas(?)
 Platforms: Labtop & Desktop
 Hosting: Github
-## Feature List
+
+Feature List
 Implementation of various different forms of data visualization (Bar Graphs, Pie Charts, Scatter Graphs, etc...).
 Providing the background as to how and where I had gathered my data, as well as summarizing some important details needed in order to comprehend the data, such as what fantasy football is.
 Some form of user interactivity with the data presented.
 An aesthetically pleasing website that is designed around the chartered data.
 The telling of a story through my method of data presentation, recapping all of the events of interest and statistical oddities which occurred throughout my fantasy football league week by week.
-## Future Feature List
+
+Future Feature List
 Animations for my data
 The creation of custom graphics for the interface
 The ability for the user to visualize their own collected data from their fantasy league through my application
-## Basic Technical Features
+
+Basic Technical Features
 Backend usage of terminal to execute and test python code
 Programming with CSS to create an aesthetically pleasing webpage
 HTML to format the webpage
 Hosted through a Github repository made through the help of GitHub Pages
-## Advanced Technical Features
+
+Advanced Technical Features
 The use of python libraries such as Matplotlib and Pandas
 The Plotting and graphing of data using python
 
@@ -74,7 +78,8 @@ I did use python like stated in my original plans, albeit I used an older versio
 I also went beyond my proposed python libraries that I would use, as I added numpy for the creation of my stat tables.
 For my proposed telling of a story through my method of data visualization is one part to my final project that I failed to fulfill upon. As my project furthered, I realized I wanted to instead invest more of my time in working with statistics, rather than trying to build an overarching narrative throughout the presentation of my data, preferring to instead focus my writing juices towards my commentaries under graphs.
 As a final note: I did change the name of my project from GraphingGridiron to The Fantasy Football Report. I did this mainly becaused I liked the more newspaper-like sound of The Fantasy Football Report, as well as it being a much more simple and to the point name than GraphingGridiron ever was.
-Features I Would've Added if I Had More Time
+
+## Features I Would've Added if I Had More Time
 I think my future feature list still holds true as the features I would've added if given more time to work on this project. I did try to add animations to my program but I just couldn't get it to work the way I wanted, so animations would probably be the first thing I would try to tackle if I were given more time to develop this project. As for something besides my original future features list, I probably would've expanded my data from my week 1 to week 10 sample to week 1 to week 14, as when I started this project we had only reached the tenth week of fantasy football, as to now where we are now about to start the first games of week 14.
 
 ## Contact Information
