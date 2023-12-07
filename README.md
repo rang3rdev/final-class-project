@@ -32,37 +32,36 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) f
 
 ## Original Plans
 
-Final Project Proposal: GraphingGridiron
-Project Head: Gavin Schnowske
+Final Project Proposal Name: GraphingGridiron
 
-Application Overview
+# Application Overview
 The webpage will be designed around the visualization of my collected data, wherein I will include a variety of charts as to best portray all of the different dimensions to my statistics. I also intend to add interactivity with the graphs, such as possibly displaying something when you hover your cursor over a graph, or the clicking of a button to change some part of the application. There will also be additional information which may appear displayed alongside the graphs, whether that is to provide better clarification, or to give my own personal thoughts relevant to the data at hand.
 
-Technology Overview
+# Technology Overview
 Languages: HTML, CSS, Python 3.12.0
 Libraries: Matplotlib, Pandas(?)
 Platforms: Labtop & Desktop
 Hosting: Github
 
-Feature List
+# Feature List
 Implementation of various different forms of data visualization (Bar Graphs, Pie Charts, Scatter Graphs, etc...).
 Providing the background as to how and where I had gathered my data, as well as summarizing some important details needed in order to comprehend the data, such as what fantasy football is.
 Some form of user interactivity with the data presented.
 An aesthetically pleasing website that is designed around the chartered data.
 The telling of a story through my method of data presentation, recapping all of the events of interest and statistical oddities which occurred throughout my fantasy football league week by week.
 
-Future Feature List
+# Future Feature List
 Animations for my data
 The creation of custom graphics for the interface
 The ability for the user to visualize their own collected data from their fantasy league through my application
 
-Basic Technical Features
+# Basic Technical Features
 Backend usage of terminal to execute and test python code
 Programming with CSS to create an aesthetically pleasing webpage
 HTML to format the webpage
 Hosted through a Github repository made through the help of GitHub Pages
 
-Advanced Technical Features
+# Advanced Technical Features
 The use of python libraries such as Matplotlib and Pandas
 The Plotting and graphing of data using python
 
