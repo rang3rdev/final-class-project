@@ -30,7 +30,7 @@ like their emails but they should get a shoutout in the credits for their invalu
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
 
-#### Original Plans ####
+## Original Plans
 
 Final Project Proposal: GraphingGridiron
 Project Head: Gavin Schnowske
