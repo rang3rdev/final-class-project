@@ -65,7 +65,7 @@ Hosted through a Github repository made through the help of GitHub Pages
 The use of python libraries such as Matplotlib and Pandas
 The Plotting and graphing of data using python
 
-#### What I Delivered On
+## What I Delivered On
 Overall, I would say that I stayed relatively faithful to my original plans as I look back at my finished product.
 Starting off with the proposed Feature list, I successfully met my goal of adding various different forms of data visualization, such as but not limited to: Bar Graphs, Line Graphs, Scatter Plots, and Pie Charts.
 I also gave background information as to the source of my data, as well as summarized what exactly fantasy football is for those who may be unaware of the game.
